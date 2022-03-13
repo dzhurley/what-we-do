@@ -7,10 +7,14 @@ const client = sanityClient({
   useCdn: true,
 });
 
-const getClient = () => client;
+export const getThings = async () => {
+  return client.fetch(`{
+		"things": *[_type == "thing"]
+  }`);
+};
 
 const sanity = {
-  getClient,
+  getThings,
 };
 
 export default sanity;

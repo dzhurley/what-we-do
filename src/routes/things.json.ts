@@ -1,10 +1,7 @@
-import sanity from '$lib/services/sanity';
+import { getThings } from '$lib/sanity';
 
-// Fetch all valid posts & authors to display in the homepage
 export async function get() {
-  const data = await sanity.getClient().fetch(`{
-		"things": *[_type == "thing"]
-  }`);
+  const data = await getThings();
 
   if (data) {
     return {
