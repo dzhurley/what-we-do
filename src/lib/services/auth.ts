@@ -1,7 +1,7 @@
 import createAuth0Client from '@auth0/auth0-spa-js';
 import { user, isAuthenticated, popupOpen } from '$lib/stores/auth';
 
-const createClient = async () => {
+const getClient = async () => {
   const auth0Client = await createAuth0Client({
     domain: import.meta.env.VITE_AUTH0_DOMAIN,
     client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
@@ -30,7 +30,7 @@ const logout = client => {
 };
 
 const auth = {
-  createClient,
+  getClient,
   loginWithPopup,
   logout,
 };
