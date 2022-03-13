@@ -13,13 +13,14 @@
 
 <script lang="ts">
   import { onMount } from 'svelte';
-
-  import type { Thing } from '$lib/types';
-
+  import type { CMSThing } from '$lib/types';
   import auth0, { clientInitialized, isAuthenticated, user } from '$lib/auth0';
+  import { things } from '$lib/sanity';
   import Things from '$lib/Things.svelte';
 
-  export let things: Thing[];
+  export let cmsThings: CMSThing[];
+
+  $: things.set(cmsThings);
 
   onMount(async () => {
     await auth0.createClient();
@@ -34,7 +35,7 @@
 
   <button on:click={() => auth0.logout()}>Logout</button>
 
-  <Things {things} />
+  <Things />
 {:else if $clientInitialized}
   <button on:click={() => auth0.loginWithPopup()}>Login</button>
 {:else}
