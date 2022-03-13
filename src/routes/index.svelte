@@ -12,36 +12,29 @@
 </script>
 
 <script lang="ts">
-  import type { Thing } from '$lib/types';
   import { onMount } from 'svelte';
+
+  import type { Thing } from '$lib/types';
+
   import auth0, { clientInitialized, isAuthenticated, user } from '$lib/auth0';
+  import Things from '$lib/Things.svelte';
 
   export let things: Thing[];
 
   onMount(async () => {
     await auth0.createClient();
   });
-
-  $: console.log($user);
-
 </script>
 
 <h1>What We Do</h1>
 <p>More to come</p>
 
 {#if $clientInitialized && $isAuthenticated}
-  <h2>Hey {$user.name}!</h2>
+  <h2>Welcome {$user.name}!</h2>
 
-  {#if $user.picture}
-    <img src={$user.picture} alt={$user.name} />
-  {/if}
   <button on:click={() => auth0.logout()}>Logout</button>
 
-  <ul>
-    {#each things as thing (thing.name)}
-      <li>{thing.name}</li>
-    {/each}
-  </ul>
+  <Things {things} />
 {:else if $clientInitialized}
   <button on:click={() => auth0.loginWithPopup()}>Login</button>
 {:else}
