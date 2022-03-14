@@ -1,9 +1,9 @@
 export type CMSThing = {
+  _id?: string;
+  _rev?: string;
+  _createdAt?: string;
+  _updatedAt?: string;
   _type: 'thing';
-  _id: string;
-  _rev: string;
-  _createdAt: string;
-  _updatedAt: string;
   name: string;
   details: string;
   links: string[];

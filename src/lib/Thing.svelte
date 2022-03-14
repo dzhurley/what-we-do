@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { CMSThing } from '$lib/types';
-  import { updateThing } from '$lib/sanity';
+  import sanity from '$lib/sanity';
 
   export let thing: CMSThing;
 
@@ -8,19 +8,27 @@
 
   let name = thing.name;
 
-  const submit = async () => {
+  const update = async () => {
     editing = false;
-    await updateThing(thing._id, { name });
+    await sanity.updateThing(thing, { name });
+  };
+
+  const remove = async () => {
+    if (window.confirm('you sure?')) {
+      await sanity.deleteThing(thing);
+    }
   };
 </script>
 
 {#if editing}
   <input type="text" bind:value={name} />
-  <button on:click={submit}>save</button>
+  <button on:click={update}>save</button>
 {:else}
-  <h1>{name}</h1>
+  <h1>{thing.name}</h1>
   <button on:click={() => (editing = true)}>edit</button>
+  <button on:click={remove}>delete</button>
 {/if}
+
 {#if thing.tags.length}
   <ul>
     {#each thing.tags as tag}
