@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import auth0, { clientInitialized, isAuthenticated, user } from '$lib/auth0';
   import sanity from '$lib/sanity';
+  import Chooser from '$lib/Chooser.svelte';
   import Things from '$lib/Things.svelte';
 
   onMount(async () => {
@@ -21,6 +22,8 @@
   <h2>Welcome {$user.name}!</h2>
 
   <button on:click={() => auth0.logout()}>Logout</button>
+
+  <Chooser />
 
   <Things />
 {:else if $clientInitialized}
