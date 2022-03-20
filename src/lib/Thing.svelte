@@ -1,35 +1,11 @@
 <script lang="ts">
-  import Svelecte from 'svelecte';
   import type { CMSThing } from '$lib/types';
-  import sanity, { tags } from '$lib/sanity';
+  import Form from '$lib/Form.svelte';
+  import sanity from '$lib/sanity';
 
   export let thing: CMSThing;
 
-  const blankFormState = {
-    name: '',
-    details: '',
-    tags: [],
-    links: [],
-  };
-
-  let formState: Partial<CMSThing> = { ...blankFormState };
-
   let editing = false;
-
-  const cancel = () => {
-    editing = false;
-    formState = { ...blankFormState };
-  };
-
-  const edit = () => {
-    editing = true;
-    formState = {
-      name: thing.name,
-      details: thing.details,
-      tags: [...thing.tags],
-      links: [...thing.links],
-    };
-  };
 
   const remove = async () => {
     if (window.confirm('you sure?')) {
@@ -37,32 +13,14 @@
     }
   };
 
-  const update = async () => {
+  const update = async (formState: Partial<CMSThing>) => {
     editing = false;
-    console.log('update', thing.tags);
     await sanity.updateThing(thing, formState);
-    formState = { ...blankFormState };
   };
 </script>
 
 {#if editing}
-  <input type="text" bind:value={formState.name} />
-
-  <textarea bind:value={formState.details} />
-
-  <Svelecte
-    options={$tags}
-    bind:value={formState.tags}
-    allowEditing
-    clearable
-    creatable
-    creatablePrefix=""
-    multiple
-    valueAsObject
-  />
-
-  <button on:click={cancel}>cancel</button>
-  <button on:click={update}>save</button>
+  <Form {thing} onCancel={() => (editing = false)} onSubmit={update} />
 {:else}
   <h1>{thing.name}</h1>
 
@@ -86,5 +44,5 @@
   {/if}
 
   <button on:click={remove}>delete</button>
-  <button on:click={edit}>edit</button>
+  <button on:click={() => (editing = true)}>edit</button>
 {/if}
