@@ -1,9 +1,20 @@
 import sanityClient from '@sanity/client';
-import { writable } from 'svelte/store';
+import { writable, derived } from 'svelte/store';
 
 import type { CMSThing } from '$lib/types';
 
 export const things = writable<CMSThing[]>([]);
+
+export const tags = derived(things, $things => {
+  return $things
+    .flatMap(t => t.tags)
+    .reduce((tags, tag) => {
+      if (!tags.some(t => t.value === tag.value)) {
+        tags.push(tag);
+      }
+      return tags;
+    }, []);
+});
 
 const client = sanityClient({
   projectId: import.meta.env.VITE_SANITY_PROJECT,

@@ -6,14 +6,16 @@
 
   onMount(async () => {
     await auth0.createClient();
-    if ($clientInitialized && $isAuthenticated) {
-      await sanity.listenForThings();
-    }
   });
+
+  $: {
+    if ($clientInitialized && $isAuthenticated) {
+      sanity.listenForThings();
+    }
+  }
 </script>
 
 <h1>What We Do</h1>
-<p>More to come</p>
 
 {#if $clientInitialized && $isAuthenticated}
   <h2>Welcome {$user.name}!</h2>
