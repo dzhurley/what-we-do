@@ -16,6 +16,10 @@
       sanity.listenForThings();
     }
   }
+
+  const closeClick = () => {
+    document.querySelector('.paper-navbar .collapsible button').click();
+  };
 </script>
 
 <svelte:head>
@@ -27,7 +31,7 @@
     <a href="/">What We Do!?</a>
   </h3>
   <ul class="inline">
-    <li><a href="/things">Things</a></li>
+    <li><a href="/things" on:click={closeClick}>Things</a></li>
     <li>
       {#if $isAuthenticated}
         <button on:click={() => auth0.logout()}>Log&nbsp;out</button>
