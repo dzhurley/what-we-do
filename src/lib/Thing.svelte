@@ -37,7 +37,9 @@
     {#if thing.links.length}
       <ul>
         {#each thing.links as href}
-          <li><a {href}>{href}</a></li>
+          <li>
+            <a {href} target="_blank" rel="noopener noreferrer">{href}</a>
+          </li>
         {/each}
       </ul>
     {/if}
