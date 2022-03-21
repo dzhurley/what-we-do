@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Button } from 'spaper';
+  import confetti from 'canvas-confetti';
 
   import { things } from '$lib/sanity';
   import type { CMSThing } from '$lib/types';
@@ -10,6 +11,11 @@
 
   const choose = () => {
     choice = $things[Math.floor(Math.random() * $things.length)];
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
   };
 </script>
 
