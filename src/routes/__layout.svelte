@@ -61,4 +61,8 @@
   p {
     text-align: center;
   }
+
+  h1 {
+    margin: 10rem 2rem 2rem;
+  }
 </style>
