@@ -32,6 +32,7 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "1.20.1",
     "@sanity/client": "3.2.0",
+    "spaper": "0.4.6",
     "svelecte": "3.6.0"
   }
 }

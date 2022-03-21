@@ -1,33 +1,32 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
-  import auth0, { clientInitialized, isAuthenticated, user } from '$lib/auth0';
-  import sanity from '$lib/sanity';
-  import Chooser from '$lib/Chooser.svelte';
-  import Things from '$lib/Things.svelte';
+  import { Button } from 'spaper';
 
-  onMount(async () => {
-    await auth0.createClient();
-  });
+  import { things } from '$lib/sanity';
+  import type { CMSThing } from '$lib/types';
 
-  $: {
-    if ($clientInitialized && $isAuthenticated) {
-      sanity.listenForThings();
-    }
-  }
+  import Thing from '$lib/Thing.svelte';
+
+  let choice: CMSThing;
+
+  const choose = () => {
+    choice = $things[Math.floor(Math.random() * $things.length)];
+  };
 </script>
 
-<h1>What We Do</h1>
+<section>
+  {#if choice}
+    <Thing thing={choice} readonly />
+    <Button on:click={choose}>Pick another!</Button>
+  {:else}
+    <Button size="large" on:click={choose}>Pick one!</Button>
+  {/if}
+</section>
 
-{#if $clientInitialized && $isAuthenticated}
-  <h2>Welcome {$user.name}!</h2>
-
-  <button on:click={() => auth0.logout()}>Logout</button>
-
-  <Chooser />
-
-  <Things />
-{:else if $clientInitialized}
-  <button on:click={() => auth0.loginWithPopup()}>Login</button>
-{:else}
-  Loading...
-{/if}
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+  }
+</style>
