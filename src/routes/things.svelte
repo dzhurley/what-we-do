@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button } from 'spaper';
+  import Masonry from 'svelte-bricks';
 
   import type { CMSThing } from '$lib/types';
   import sanity, { things } from '$lib/sanity';
@@ -7,6 +7,8 @@
   import Thing from '$lib/Thing.svelte';
 
   let creating = false;
+
+  $: items = $things.map(t => t.name);
 
   const create = async (
     formState: Pick<CMSThing, 'name' | 'details' | 'tags' | 'links'>,
@@ -34,9 +36,9 @@
     </button>
   {/if}
 
-  {#each $things as thing (thing.name)}
-    <Thing {thing} />
-  {/each}
+  <Masonry {items} minColWidth={400} let:item>
+    <Thing thing={$things.find(t => t.name === item)} />
+  </Masonry>
 </section>
 
 <style>

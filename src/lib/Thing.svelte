@@ -61,17 +61,17 @@
       </div>
     {/if}
   {/if}
-</section>
 
-<Modal bind:active={showModal} title="Delete Thing">
-  <p>
-    You sure you want to delete "{thing.name}"?
-  </p>
-  <div class="row flex-right">
-    <Button on:click={() => (showModal = false)}>Cancel</Button>
-    <Button type="danger" on:click={remove}>Delete</Button>
-  </div>
-</Modal>
+  <Modal bind:active={showModal} title="Delete Thing">
+    <p>
+      You sure you want to delete "{thing.name}"?
+    </p>
+    <div class="row flex-right">
+      <Button on:click={() => (showModal = false)}>Cancel</Button>
+      <Button type="danger" on:click={remove}>Delete</Button>
+    </div>
+  </Modal>
+</section>
 
 <style>
   .container {
